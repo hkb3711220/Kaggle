@@ -80,35 +80,3 @@ class create_model(object):
             print(model.summary())
 
         return model
-
-    def get_chara_level_Net(self, check=False):
-
-        inputs = Input(shape=(self.max_len,))
-        x = Embedding(self.max_features, self.embed_size, weights=self.pretrain_embed_matrix)(inputs)  # shape: batch_size, max_len, emb_size
-        net = Conv1D(filters=self.num_filter, kernel_size=(7),
-                        kernel_initializer='he_normal', activation='elu')(x)
-        net = MaxPool1D(pool_size=(3))(net)
-        net = Conv1D(filters=self.num_filter, kernel_size=(7),
-                        kernel_initializer='he_normal', activation='elu')(net)
-        net = MaxPool1D(pool_size=(3))(net)
-        net = Conv1D(filters=self.num_filter, kernel_size=(3),
-                        kernel_initializer='he_normal', activation='elu')(net)
-        net = Conv1D(filters=self.num_filter, kernel_size=(3),
-                     kernel_initializer='he_normal', activation='elu')(net)
-        net = MaxPool1D(pool_size=(3))(net)
-
-        net = Flatten()(net)
-        net = Dense(self.Ouput_Unit, activation='elu', use_bias=True)(net)
-        net = Dense(self.Ouput_Unit, activation='elu', use_bias=True)(net)
-        outputs = Dense(1, activation='sigmoid', use_bias=False)(net)
-        model = Model(inputs=inputs, outputs=outputs)
-        model.compile(optimizer=self.adam, loss='binary_crossentropy', metrics=['accuracy'])
-
-        if check:
-            print(model.summary())
-
-        return model
-
-
-model = create_model(num_filter=256, Ouput_Unit=2048).get_chara_level_Net(check=True)
-

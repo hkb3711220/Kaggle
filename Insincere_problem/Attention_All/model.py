@@ -2,17 +2,17 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 import sys
 sys.path.append('./')
-from keras.layers import Input, Embedding, Dense, Flatten, GlobalAvgPool1D
+from keras.layers import Input, Embedding, Dense, Flatten, GlobalAvgPool1D, add, Conv1D
 from keras.optimizers import adam
 from keras.models import Model
-from utils import Position_Embedding, MultiHeadAttention
+from utils import Position_Embedding, MultiHeadAttention, LayerNormalization
 import os
 os.chdir(os.path.dirname(__file__))
 
 
 class create_model(object):
 
-    def __init__(self, max_features=50000, max_len=100, embed_size=300, pretrain_embeding_matrix=None):
+    def __init__(self, max_features=50000, max_len=100, embed_size=768, pretrain_embeding_matrix=None):
 
         self.max_features = max_features
         self.max_len = max_len
@@ -26,14 +26,28 @@ class create_model(object):
         x = Embedding(self.max_features, self.embed_size)(inputs)
         x = Position_Embedding()(x)
 
-        O_seq = MultiHeadAttention(8, 16)([x, x, x])
-        O_seq = GlobalAvgPool1D()(O_seq)
-        Output = Dense(1, activation='sigmoid')(O_seq)
+        net = MultiHeadAttention(12, 64)([x, x, x])
+        net = LayerNormalization()(net)
+        net = add([net, x]) #resnet
+
+        FFN = Conv1D(filters=self.embed_size*4, kernel_size=(1), padding='same', activation='relu')(net)
+        FFN = Conv1D(filters=self.embed_size, kernel_size=(1), padding='same')(FFN)
+        FFN = LayerNormalization()(FFN)
+        net = add([FFN, net])
+
+        net = GlobalAvgPool1D()(net)
+        Output = Dense(1, activation='sigmoid')(net)
 
         model = Model(inputs=inputs, outputs=Output)
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
         return model
+
+max_features = 20000
+maxlen = 80
+
+model = create_model(max_features=max_features, max_len=maxlen).get()
+model.summary()
 
 from keras.datasets import imdb
 from keras.preprocessing import sequence
@@ -41,7 +55,6 @@ from keras.preprocessing import sequence
 max_features = 20000
 maxlen = 80
 batch_size = 32
-
 print('Loading data...')
 (x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)
 print(len(x_train), 'train sequences')
@@ -53,11 +66,9 @@ x_test = sequence.pad_sequences(x_test, maxlen=maxlen)
 print('x_train shape:', x_train.shape)
 print('x_test shape:', x_test.shape)
 
-model = create_model(max_features=max_features, max_len=maxlen).get()
-model.summary()
 
 print('Train...')
 model.fit(x_train, y_train,
           batch_size=batch_size,
-          epochs=5,
+          epochs=2,
           validation_data=(x_test, y_test))
