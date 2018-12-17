@@ -19,4 +19,3 @@ train_X_tokens = []
 for text in train_X:
     train_X_tokens.append([text_to_word_sequence(text)])
 
-print(train_X_tokens[:5])
