@@ -17,13 +17,15 @@ class embedding(object):
     def __init__(self,
                  num_filter,
                  kernel_size,
-                 max_features=30,
-                 word_max_len=20,
+                 char_index,
+                 max_features=35,
+                 word_max_len=21,
                  embed_size=15,
                  highway=True):
 
         self.num_filter = num_filter
         self.kernel_size = kernel_size
+        self.char_index = char_index
         self.max_features = max_features
         self.embed_size = embed_size
         self.word_max_len = word_max_len
@@ -34,7 +36,7 @@ class embedding(object):
         inputs = Input(shape=(self.word_max_len,))
 
         #Embedding
-        x = Embedding(self.max_features, self.embed_size, input_shape=(self.word_max_len,))(inputs) # shape: batch_size, max_len, emb_size
+        x = Embedding(len(self.char_index)+1, self.embed_size, input_shape=(self.word_max_len,))(inputs) # shape: batch_size, max_len, emb_size
 
         feature_maps = []
 
@@ -72,7 +74,7 @@ class CharRNN(object):
         self.num_unit = num_unit
         self.max_len = 35
         self.word_index = word_index
-        self.word_max_len = 20
+        self.word_max_len = 21
 
     def get(self, embedding):
 
@@ -92,15 +94,31 @@ def PPL(y_true, y_pred):
     return K.pow(2.0, K.mean(K.categorical_crossentropy(y_true, y_pred, from_logits=True)))
 
 def categorical_crossentropy(y_true, y_pred):
-    return K.categorical_crossentropy(y_true, y_pred,from_logits=True )
+    return K.categorical_crossentropy(y_true, y_pred,from_logits=True)
 
-DataLoader = DataLoader(path, max_len=30)
-word_index, char_index = DataLoader.word_index, DataLoader.char_index
-inputs_tr, outputs_tr = DataLoader.inputs, DataLoader.outputs
 
-embedding = embedding(num_filter=[25, 50, 75, 100, 125, 150], kernel_size=[1, 2, 3, 4, 5 ,6]).get()
-model = CharRNN(num_unit=300, word_index=word_index).get(embedding)
-model.summary()
-model.compile(optimizer=SGD(lr=1.0), loss=categorical_crossentropy, metrics=['accuracy', PPL])
-gen = generator(inputs_tr, outputs_tr, batch_size=20, max_len=35, max_word_len=20, word_index=word_index, char_index=char_index)
-model.fit_generator(gen, steps_per_epoch=len(inputs_tr)//35//20, epochs=25, verbose=1) 
+if __name__ == '__main__':
+    path = '.\Input'
+    max_len = 35
+    max_word_len = 21
+
+    DataLoader_train = DataLoader(path, name='train')
+    word_index, char_index = DataLoader_train.word_index, DataLoader_train.char_index
+    inputs_tr, outputs_tr = DataLoader_train.inputs, DataLoader_train.outputs
+
+    embedding = embedding(num_filter=[25, 50, 75, 100, 125, 150], kernel_size=[1, 2, 3, 4, 5 ,6], char_index=char_index).get()
+    model = CharRNN(num_unit=300, word_index=word_index).get(embedding)
+    model.summary()
+
+    model.compile(optimizer=SGD(lr=1.0), loss=categorical_crossentropy, metrics=['accuracy', PPL])
+    gen = generator(inputs_tr, outputs_tr, batch_size=20, max_len=max_len, max_word_len=max_word_len, word_index=word_index, char_index=char_index)
+
+    #For test generator
+    I = 0
+    for x, y in gen:
+        if I >= 10:
+            break
+        print("[Batch: {}]".format(I),"Input: ",x.shape,"Output:",y.shape)
+        I += 1
+
+    model.fit_generator(gen, steps_per_epoch=1267, epochs=25, verbose=1)
