@@ -29,11 +29,11 @@ class ELMoEmbeddingLayer(object):
         return embedding
 
 #For test
-#x = tf.placeholder(tf.string, shape=[None,])
-#embeddings = ELMoEmbeddingLayer().call(x)
+x = tf.placeholder(tf.string, shape=[None,])
+embeddings = ELMoEmbeddingLayer().call(x)
 
-#with tf.Session() as sess:
-    #sess.run(tf.global_variables_initializer())
-    #sess.run(tf.tables_initializer())
-
-    #print(sess.run(embeddings, feed_dict={x:["the cat is on the mat", "dogs are in the fog"]}))
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    sess.run(tf.tables_initializer())
+    output = sess.run(embeddings, feed_dict={x:["the cat is on the mat", "how old are you"]})
+    print(output[1].shape)

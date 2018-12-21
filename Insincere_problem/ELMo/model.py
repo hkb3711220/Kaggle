@@ -33,3 +33,6 @@ class create_model(object):
 
 
         return model
+
+model = create_model().get()
+model.summary()

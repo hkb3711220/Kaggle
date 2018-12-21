@@ -16,7 +16,7 @@ class ELMoEmbeddingLayer(Layer):
 
         self.elmo = hub.Module("https://tfhub.dev/google/elmo/2", trainable=self.trainable,
                                name="{}_module".format(self.name))
-        self.trainable_weights += K.tf.trainable_variables(scope="^{}_module/.*".format('self.name'))
+        self.trainable_weights += K.tf.trainable_variables(scope="^{}_module/.*".format(self.name))
 
         super(ELMoEmbeddingLayer, self).build(input_shape)
 

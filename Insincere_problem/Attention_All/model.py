@@ -27,13 +27,13 @@ class create_model(object):
         x = Position_Embedding()(x)
 
         net = MultiHeadAttention(12, 64)([x, x, x])
-        net = LayerNormalization()(net)
         net = add([net, x]) #resnet
+        net = LayerNormalization()(net) #resnet
 
         FFN = Conv1D(filters=self.embed_size*4, kernel_size=(1), padding='same', activation='relu')(net)
         FFN = Conv1D(filters=self.embed_size, kernel_size=(1), padding='same')(FFN)
-        FFN = LayerNormalization()(FFN)
         net = add([FFN, net])
+        net = LayerNormalization()(net)
 
         net = GlobalAvgPool1D()(net)
         Output = Dense(1, activation='sigmoid')(net)
@@ -48,6 +48,8 @@ maxlen = 80
 
 model = create_model(max_features=max_features, max_len=maxlen).get()
 model.summary()
+
+exit()
 
 from keras.datasets import imdb
 from keras.preprocessing import sequence

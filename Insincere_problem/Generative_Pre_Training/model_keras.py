@@ -32,13 +32,12 @@ class create_model(object):
             F = add([A, F])
             prev_input = LayerNormalization()(F)
 
-        FC = Dense(self.max_features, activation='softmax')(prev_input)
+        FC = Dense(self.max_features, activation='sigmoid')(prev_input)
 
         model = Model(inputs=inputs, outputs=FC)
 
         return model
 
-
 model = create_model().get()
 model.summary()
-model.compile(optimizer=adam())
+model.compile(optimizer=adam(lr=0.01), loss='categorical_crossentropy', metrics=['accuracy'])
