@@ -32,7 +32,7 @@ class embedding(object):
 
     def get(self):
 
-        inputs = Input(shape=(self.word_max_len,))
+        inputs = Input(shape=(self.max_len,))
 
         #Embedding
         x = Embedding(self.max_features, self.embed_size, input_shape=(self.word_max_len,))(inputs) # shape: batch_size, max_len, emb_size
