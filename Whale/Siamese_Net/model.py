@@ -6,6 +6,7 @@ from keras.initializers import random_normal
 class Siamese_Net(object):
 
     def __init__(self, input_shape):
+
         self.input_shape = input_shape
         self.initializers_weight = random_normal(mean=0.0, stddev=0.01)
         self.initializers_bias = random_normal(mean=0.5, stddev=0.01)
@@ -38,10 +39,7 @@ class Siamese_Net(object):
         right_features = convert(right_input)
 
         #L1 siamese dist
-        #L1_distance = lambda x: K.abs(x[0]-x[1])
-        #dist = merge([left_features, right_features], mode=L1_distance, output_shape=lambda x:x[0])
-        dist = subtract([left_features, right_features])
-        dist = Lambda(lambda x: K.abs(x))(dist)
+        dist = Lambda(lambda x: K.abs(x[0]-x[1]))([left_features, right_features])
 
         #fully connected + sigmoid
         out = Dense(1, activation='sigmoid')(dist)
