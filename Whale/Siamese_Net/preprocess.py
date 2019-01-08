@@ -7,7 +7,7 @@ from itertools import combinations_with_replacement
 
 os.chdir(os.path.dirname(__file__))
 data = pd.read_csv("./input/train.csv")
-train_data, test_data = train_test_split(data, test_size=0.3, random_state=2018)
+train_data, test_data = train_test_split(data, test_size=0.1, random_state=2018)
 train_data.to_csv('./working/train.csv', index=False)
 
 def preprocess(data):
@@ -56,5 +56,3 @@ def generator(data, batch_size):
 
 gen = generator(data='./working/train.csv', batch_size=16)
 [left_input, right_input], label = next(gen)
-
-print(len(label))
