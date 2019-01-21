@@ -18,7 +18,7 @@ class embedding(object):
     def __init__(self,
                  num_filter,
                  kernel_size,
-                 max_features=30,
+                 max_features=100,
                  word_max_len=20,
                  embed_size=15,
                  highway=True):
