@@ -50,8 +50,3 @@ class Siamese_Net(object):
 
 model = Siamese_Net(input_shape=(105, 105, 1)).build()
 model.summary()
-
-
-
-
-
