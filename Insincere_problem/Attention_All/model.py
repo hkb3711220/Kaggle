@@ -49,8 +49,6 @@ maxlen = 80
 model = create_model(max_features=max_features, max_len=maxlen).get()
 model.summary()
 
-exit()
-
 from keras.datasets import imdb
 from keras.preprocessing import sequence
 

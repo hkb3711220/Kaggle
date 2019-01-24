@@ -8,7 +8,7 @@ from keras import Sequential
 from keras import backend as K
 from keras.optimizers import SGD, adam
 from utils import DataLoader, generator
-from cyc_lr import cyclical_learning_rates
+from cyc_lr import cyclr
 import numpy as np
 
 path = r'C:\Users\user1\Desktop\Kaggle\Insincere_problem\Char_CNN\Input'
@@ -32,7 +32,7 @@ class embedding(object):
 
     def get(self):
 
-        inputs = Input(shape=(self.max_len,))
+        inputs = Input(shape=(self.word_max_len,))
 
         #Embedding
         x = Embedding(self.max_features, self.embed_size, input_shape=(self.word_max_len,))(inputs) # shape: batch_size, max_len, emb_size
@@ -106,8 +106,10 @@ model = CharRNN(num_unit=300, word_index=word_index).get(embedding)
 model.summary()
 model.compile(optimizer=SGD(), loss='categorical_crossentropy', metrics=['accuracy', PPL])
 
-lr_sched = cyclical_learning_rates(iteration=len(inputs_tr)//20,
-                                   step_size=len(inputs_tr)//20/2, max_lr=0.006, min_lr=0.001)
+#lr_sched = cyclical_learning_rates(iteration=len(inputs_tr)//20,
+                                   #step_size=len(inputs_tr)//20/2, max_lr=0.006, min_lr=0.001)
+
+cyclr = cyclr(max_lr=0.03, base_lr=0.001, step_size=2000, mode='triangular')
 gen = generator(inputs_tr, outputs_tr, batch_size=20, max_len=35,
                 max_word_len=20, word_index=word_index, char_index=char_index)
-model.fit_generator(gen, steps_per_epoch=len(inputs_tr)//20, epochs=25, verbose=1, callbacks=[lr_sched])
+model.fit_generator(gen, steps_per_epoch=len(inputs_tr)//20, epochs=1, verbose=1, callbacks=[cyclr])
