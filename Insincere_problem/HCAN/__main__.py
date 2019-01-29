@@ -3,6 +3,7 @@ from keras.models import *
 from ConvSelfAttention import *
 from PositionEmbedding import *
 from LayerNormarlization import *
+from ConvTargetAttention import *
 
 class HCAN(object):
 
@@ -21,22 +22,16 @@ class HCAN(object):
     def build(self):
 
         inp = Input((self.max_len,))
-        x = Embedding(self.max_features, self.embed_size)(inp)
-        x = PositionEmbedding(self.max_len, self.embed_size, mode='Concat')(x)
+        x   = Embedding(self.max_features, self.embed_size)(inp)
+        x   = PositionEmbedding(self.max_len, self.embed_size)(x)
 
-        Q_a = Conv1D(self.n_filter, kernel_size=self.kernel_size, activation='elu')(x)
-        K_a = Conv1D(self.n_filter, kernel_size=self.kernel_size, activation='elu')(x)
-        V_a = Conv1D(self.n_filter, kernel_size=self.kernel_size, activation='elu')(x)
+        a_1 = ConvSelfAttention(kernel_size=3, n_head=8, output_dim=self.embed_size)(x)
+        a_2 = ConvSelfAttention(kernel_size=3, n_head=8, output_dim=self.embed_size, V_activation='tanh')(x)
+        x   = Lambda(lambda x: x[0] * x[1])([a_1, a_2])
+        x   = LayerNormalization()(x)
 
-        Q_b = Conv1D(self.n_filter, kernel_size=self.kernel_size, activation='elu')(x)
-        K_b = Conv1D(self.n_filter, kernel_size=self.kernel_size, activation='elu')(x)
-        V_b = Conv1D(self.n_filter, kernel_size=self.kernel_size, activation='tanh')(x)
-
-        MultiHead_a = ConvSelfAttention(8, self.n_filter)([Q_a, K_a, V_a])
-        MultiHead_b = ConvSelfAttention(8, self.n_filter)([Q_b, K_b, V_b])
-
-        x = Lambda(lambda x: x[0] * x[1])([MultiHead_a, MultiHead_b])
-        x = LayerNormalization()(x)
+        T   = GlobalAvgPool1D()(x)
+        x   = ConvTargetAttention(kernel_size=3, n_head=8, output_dim=self.embed_size)([T, x, x])#regradless the length, represent as sentence
 
         return Model(inp, x)
 

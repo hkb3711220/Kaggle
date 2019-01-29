@@ -1,51 +1,73 @@
-from keras import backend as k
+from keras import backend as K
 from keras.engine.topology import Layer
+from tensorflow.keras.backend import batch_dot
 
 class ConvTargetAttention(Layer):
 
-    """
-    For classification purposes, we require that each sequence regardless
-    of its length be represented by a single fixed-length vecotr V
-    """
+    def __init__(self, kernel_size, n_head, output_dim, use_bias=True, **kwargs):
 
-    def __init__(self, max_len, **kwargs):
-
-        self.max_len = max_len
+        self.kernel_size = kernel_size
+        self.output_dim = output_dim
+        self.n_head = n_head
+        self.use_bias = use_bias
+        self.per_head_dim = int(self.output_dim / self.n_head)
         super(ConvTargetAttention, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+
+        self.WK = self.add_weight(name='WK',
+                                  shape=(self.kernel_size, input_shape[1][-1], self.output_dim),
+                                  initializer='glorot_uniform',
+                                  trainable=True)
+        self.WV = self.add_weight(name='WV',
+                                  shape=(self.kernel_size, input_shape[2][-1], self.output_dim),
+                                  initializer='glorot_uniform',
+                                  trainable=True)
+
+        if self.use_bias:
+            self.BK = self.add_weight(name='BK',
+                                      shape=(self.output_dim,),
+                                      initializer='glorot_uniform',
+                                      trainable=True)
+            self.BV = self.add_weight(name='BV',
+                                      shape=(self.output_dim,),
+                                      initializer='glorot_uniform',
+                                      trainable=True)
+
+        super(ConvTargetAttention, self).build(input_shape)
 
     def call(self, inputs):
 
         assert len(inputs) == 3
-        T, K, V = inputs
+        T_seq, K_seq, V_seq = inputs # T:(batch_size, embed_size)
+        print(T_seq)
+        T_seq = K.reshape(T_seq, (-1, self.n_head, self.per_head_dim))
 
-        T_shape = k.shape(T) #⇒(batch_size, max_len, embed_size)
-        K_shape = k.shape(K)
-        V_shape = k.shape(V)
+        K_seq = self.feature_extraction(K_seq, self.WK, self.BK, activation='elu')
+        K_seq = K.reshape(K_seq, (-1, K.shape(K_seq)[1], self.n_head, self.per_head_dim))
+        K_seq = K.permute_dimensions(K_seq, (0,2,1,3))  #(batch_size, n_head, seq_len-kernel_size+1, self.per_head_dim)
+        V_seq = self.feature_extraction(V_seq, self.WV, self.BV, activation='elu')
+        V_seq = K.reshape(V_seq, (-1, K.shape(V_seq)[1], self.n_head, self.per_head_dim))
+        V_seq = K.permute_dimensions(V_seq, (0,2,1,3)) #(batch_size, n_head, seq_len-kernel_size+1, self.per_head_dim)
 
-        heads = []
-        for i in range(n_head):
-            Ti = Q[:,i,:]
-            Ki = K[:,i,:]
-            Vi = V[:,i,:]
+        A = batch_dot(T_seq, K_seq, axes=[2, 3]) / self.per_head_dim **0.5
+        A = K.softmax(A)
+        A = batch_dot(A, V_seq, axes=[1, 2])
+        A = K.reshape(A, (-1, self.output_dim))
 
-            a = k.batch_dot(Ti, Ki, axes=[2, 2]) / ((T_shape[2]) ** 0.5)
-            a = k.softmax(a)
-            a = k.batch_dot(a, Vi, axes=[2, 1])
-            heads.append(a)
+        return A
 
-        heads = k.concatenate(heads)
+    def feature_extraction(self, inp, kernel, bias, activation='elu'):
 
-        return heads
+            x = K.conv1d(inp, kernel=kernel)
+            if self.use_bias:
+                x = K.bias_add(x, bias)
+            if activation == 'elu':
+                x = K.elu(x)
+            elif activation == 'tanh':
+                x = K.tanh(x)
+
+            return x
+
     def compute_output_shape(self, input_shape):
-        return input_shape[0][0], input_shape[0][1], input_shape[0][2]
-
-
-from keras.layers import *
-from keras.models import *
-
-x = Input(shape=(100,))
-x_1 = Embedding(120000, 512)(x)
-out = GlobalMaxPool1D()(x_1)
-
-model = Model(x, out)
-model = model.summary()
+        return input_shape[0][0], input_shape[0][1]
