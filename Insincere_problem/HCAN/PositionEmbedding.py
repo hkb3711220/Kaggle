@@ -1,5 +1,6 @@
-from keras import backend as k
+from keras import backend as K
 from keras.engine.topology import Layer
+import tensorflow as tf
 
 class PositionEmbedding(Layer):
 
@@ -20,7 +21,7 @@ class PositionEmbedding(Layer):
 
     def call(self, x):
 
-        input_shape = k.shape(x)
+        input_shape = K.shape(x)
 
         if self.mode == 'Add':
             batch_size, seq_len, output_dim = input_shape[0], input_shape[1], input_shape[2]
@@ -28,12 +29,12 @@ class PositionEmbedding(Layer):
             batch_size, seq_len, output_dim = input_shape[0], input_shape[1], self.output_dim #concat
 
         #assert seq_len == self.input_dim
-        position_embed = k.tile(k.expand_dims(self.embeddings[:seq_len, :self.output_dim], axis=0), k.stack([batch_size, 1, 1]),)
-        
+        position_embed = K.tile(K.expand_dims(self.embeddings[:seq_len, :], axis=0), K.stack([batch_size, 1, 1]))
+
         if self.mode == 'Add':
             return x + position_embed
 
-        return k.concatenate([x, position_embed], axis=-1)
+        return K.concatenate([x, position_embed], axis=-1)
     def compute_output_shape(self, input_shape):
         if self.mode == 'Concat':
             return (input_shape[0], input_shape[1], input_shape[2]+self.output_dim)
