@@ -1,94 +1,64 @@
 import torch
 import torch.nn as nn
 import torch.functional as F
+from torch.autograd import Variable
+from torchviz import make_dot
 
-class ResUnit(nn.Module):
+import sys
+sys.path.append('./')
 
-    def __init__(self, inplanes, outplanes, stride=1):
-
-        """
-        Residual Unit
-        """
-        super(ResidualUnit, self).__init__()
-        self.conv1 = nn.Conv2d(inplanes, inplanes, kernel_size=1, bias=True)
-        self.bn1 = nn.BatchNorm2d(inplanes)
-        self.conv2 = nn.Conv2d(inplanes, inplanes, kernel_size=3, stride=stride, padding=1, bias=False)
-        self.bn2 = nn.BatchNorm2d(inplanes)
-        self.conv3 = nn.Conv2d(inplanes, outplanes, kernel_size=1, bias=True)
-        self.bn3 = nn.BatchNorm2d(outplanes)
-        self.relu = nn.ReLU(inplace=True)
-        self.inplanes = inplanes
-        self.outplanes = outplanes
-        self.stride = stride
-        self.make_downsample = nn.Sequential(nn.Conv2d(self.inplanes, self.outplanes, kernel_size=1,
-                                             stride=stride, bias=False),
-                                             nn.BatchNorm2d(self.outplanes),)
-
-    def forward(self, x):
-
-        residual = x
-
-        out = self.bn1(x)
-        out = self.relu(out)
-        out = self.conv1(out)
-
-        out = self.bn2(out)
-        out = self.relu(out)
-        out = self.conv2(out)
-
-        out = self.bn3(out)
-        out = self.relu(out)
-        out = self.conv3(out)
-
-        if (self.inplanes != self.outplanes) or (self.stride !=1 ):
-            residual = self.make_downsample(residual)
-
-        out += residual
+from ResUnit import ResUnit
+from attentionlayer import AttentionModule_stage1, AttentionModule_stage2, AttentionModule_stage3
 
 
-        return out
-
-class MaskBranch(nn.Module):
-
-    def __init__(self, inplanes, outplanes, kernel_size):
-        """
-        max_pooling layers are used in mask branch size with input
-        """
-        super(MaskBranch, self).__init__()
-        self.Resunit1 = ResUnit(inplanes, outplanes)
-        #48 * 48
-        self.maxpool1 = nn.MaxPool2d(kernel_size=kernel_size, stride=2, padding=1)
-        self.Resunit2 = ResUnit(inplanes, outplanes)
-        self.Resunit3 = ResUnit(inplanes, outplanes)
-        self.maxpool2 = nn.MaxPool2d(kernel_size=kernel_size, stride=2, padding=1)
-        self.Resblock3 = ResUnit(inplanes, outplanes)
-        self.skip2 = ResUnit(inplanes, outplanes)
-        self.maxpool3 = nn.MaxPool2d(kernel_size=kernel_size, stride=2, padding=1)
-        self.Resblock4 = ResUnit(inplanes, outplanes)
-        self.skip3 = ResUnit(inplanes, outplanes)
-        self.maxpool4 = nn.MaxPool2d(kernel_size=kernel_size, stride=2, padding=1)
-        self.Resblock5 = ResUnit(inplanes, outplanes)
-        self.skip4 = ResUnit(inplanes, outplanes)
-
-        #self.upsample = nn.UpsamplingBilinear2d(scale_factor=)
-
-
-class trunkBranch(nn.Module):
-
-    def __init__(self, )
-
-
-
-class Residual_Attention_Net(nn.Module):
+class ResidualAttentionNetwork(nn.Module):
 
     def __init__(self):
-        super(ResidualAttentionNet, self).__init__()
-        self.conv1 = nn.Conv2d(in_channels=3, out_channels=64, kernel_size=7, stride=2,
-                               padding=1)
-        self.maxpool1 = nn.MaxPool2d(kernel_size=3, stride=2)
+        super(ResidualAttentionNetwork, self).__init__()
+        self.conv1 = nn.Sequential(nn.Conv2d(in_channels=3, out_channels=64,
+                                             kernel_size=3, stride=1, padding=1,bias=False),
+                                   nn.BatchNorm2d(64),
+                                   nn.ReLU(inplace=True))
+        self.maxpool1 = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
+        self.Resblock1 = ResUnit(64, 256)
+        self.attention_module1 = AttentionModule_stage1(256, 256, size1=(48,48), size2=(24,24), size3=(12,12)) #(48,48)
+        self.Resblock2 = ResUnit(256, 512, 2) #(24, 24)
+        self.attention_module2 = AttentionModule_stage2(512, 512, size1=(24,24), size2=(12,12))
+        self.Resblock3 = ResUnit(512, 1024, 2)
+        self.attention_module3 = AttentionModule_stage3(1024, 1024, size1=(12, 12))
+        self.Resblock4 = nn.Sequential(ResUnit(1024, 2048, 2),
+                                       ResUnit(2048, 2048),
+                                       ResUnit(2048, 2048))
+        self.Avergepool = nn.Sequential(
+                nn.BatchNorm2d(2048),
+                nn.ReLU(inplace=True),
+                nn.AvgPool2d(kernel_size=6, stride=1)
+            )
 
+        self.fc = nn.Linear(2048, 1)
+        self.pred = nn.Sigmoid()
 
     def forward(self, x):
 
-        x = self.conv1(x)
-        x = self.maxpool1(x)
+        x = self.conv1(x) # (46,46)
+        x = self.maxpool1(x) #
+        x = self.Resblock1(x)
+        x = self.attention_module1(x)
+        x = self.Resblock2(x)
+        x = self.attention_module2(x)
+        x = self.Resblock3(x)
+        x = self.attention_module3(x)
+        x = self.Resblock4(x)
+        x = self.Avergepool(x)
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        x = self.pred(x)
+
+        return x
+
+model = ResidualAttentionNetwork()
+
+x = Variable(torch.randn(30, 3, 96, 96))
+y = model(x)
+g = make_dot(y, params=dict(list(model.named_parameters()) + [('x', x)]))
+g.view()
