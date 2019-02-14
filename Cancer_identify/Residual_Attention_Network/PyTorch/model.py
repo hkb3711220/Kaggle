@@ -52,7 +52,7 @@ class ResidualAttentionNetwork(nn.Module):
         x = self.Avergepool(x)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
-        x = self.pred(x)
+        #x = self.pred(x)
 
         return x
 
