@@ -18,9 +18,8 @@ class ResUnit(nn.Module):
         self.inplanes = inplanes
         self.outplanes = outplanes
         self.stride = stride
-        self.make_downsample = nn.Sequential(nn.Conv2d(self.inplanes, self.outplanes, kernel_size=1,
-                                             stride=stride, bias=False),
-                                             nn.BatchNorm2d(self.outplanes),)
+        self.make_downsample = nn.Conv2d(self.inplanes, self.outplanes, kernel_size=1, stride=stride, bias=False)
+
 
     def forward(self, x):
 
