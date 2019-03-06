@@ -58,6 +58,7 @@ class Attention(Layer):
         return (input_shape[0], input_shape[-1])
 
 
+
 class charembed(object):
 
     def __init__(self, filters, kernel, max_word_len, embed_size=30,  max_char_features=26, highway=True):
@@ -99,7 +100,17 @@ class charembed(object):
 
         return model
 
-class end2ed_coref(object):
+def FFNN(x, hidden_dim):
+
+    x = Dense(hidden_dim, activation='relu')(x)
+    x = Dropout(0.2)(x)
+    x = Dense(hidden_dim, activation='relu')(x)
+    x = Dropout(0.2)(x)
+    x = Dense(1, activation='linear')(x)
+
+    return x
+
+class Documentencoder(object):
 
     def __init__(self, charembed, max_len=50, max_word_len=30, max_features=50000,
                  embed_size=300, hidden_unit=400, pretrain_embed_matrix=None):
@@ -112,53 +123,32 @@ class end2ed_coref(object):
         self.hidden_unit           = hidden_unit
         self.charembed             = charembed
 
-    def _build(self):
+    def build(self):
 
         # Assume that We have 3 spans for train
-        inpa = Input((self.max_len,))
-        inpb = Input((self.max_len,))
-        inpc = Input((self.max_len,))
-        inputs = [inpa, inpb, inpc]
-
-
-        char_inpa  = Input((self.max_len, self.max_word_len))
-        char_inpb  = Input((self.max_len, self.max_word_len))
-        char_inpc  = Input((self.max_len, self.max_word_len))
-        char_inputs = [char_inpa, char_inpb, char_inpc]
-
+        inp = Input((self.max_len,))
+        char_inp  = Input((self.max_len, self.max_word_len))
         #Embedding Layer
         if self.pretrain_embed_matrix:
-            Word_embed = Embedding(self.max_features, self.embed_size, weights=[self.pretrain_embed_matrix])
+            embed1 = Embedding(self.max_features, self.embed_size, weights=[self.pretrain_embed_matrix])(inp)
         else:
-            Word_embed = Embedding(self.max_features, self.embed_size)
-        Char_embed = TimeDistributed(self.charembed, input_shape=(self.max_len, self.max_word_len))
+            embed1 = Embedding(self.max_features, self.embed_size)(inp)
+        embed2 = TimeDistributed(self.charembed, input_shape=(self.max_len, self.max_word_len))(char_inp)
 
-        word_embeds = [Word_embed(inp) for inp in inputs]
-        char_embeds = [Char_embed(inp) for inp in char_inputs]
-
-        Concat = Concatenate(axis=2)
-        xs     = [Concat([embed1, embed2]) for embed1, embed2 in zip(word_embeds, char_embeds)]
-
-         # Use Independent of the Bidirectional LSTM
-
-        _xs    = []
-        Dropout = SpatialDropout1D(0.5)
-        Bilstm  = Bidirectional(LSTM(self.hidden_unit//2, return_sequences=True)) # (batch_size, max_len, num_units)
-
-        for i in range(len(xs)):
-            _x = Dropout(xs[i])
-            _x = Bilstm(_x)
-            _xs.append(_x)
-
-        xs = _xs
+        embed = Concatenate(axis=2)([embed1, embed2])
+        x     = SpatialDropout1D(0.5)(embed)
+        state = Bidirectional(LSTM(self.hidden_unit//2, return_sequences=True))(x) # (batch_size, max_len, num_units)
 
 
-        model = Model([inpa, inpb, inpc, char_inpa, char_inpb, char_inpc], xs)
+        return  state, embed
 
-        return model
+class MentionSorce(object):
+
+    def __init__(self, spans):
+
+        self.spans = spans
+
 
 
 #Build Model
 char_embed = charembed(filters=[50, 50, 50], kernel=[3, 4, 5], max_word_len=30, embed_size=8).build()
-model = end2ed_coref(char_embed)._build()
-model.summary()
