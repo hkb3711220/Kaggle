@@ -7,6 +7,7 @@ import nltk
 import spacy
 from spacy.lang.en import English
 from nltk import Tree
+from tqdm import tqdm
 
 os.chdir(os.path.dirname(__file__))
 
@@ -48,7 +49,7 @@ class Embeding_features():
 
     def __init__(self):
 
-        self.nlp = spacy.load('en_core_web_sm')
+        self.nlp = spacy.load('en_core_web_lg')
 
     def create(self, charoffset, text):
 
@@ -57,6 +58,7 @@ class Embeding_features():
         lens = [token.idx for token in doc] #The Charactor offset the token within the parent
         mention_offset = bs(lens, charoffset) - 1 # The target in which index of tokens
         mention = doc[mention_offset] #mention,
+        #print(mention.vector.shape)
 
         dependency_parent = mention.head #The syntactic parent, or "governor", of this token.
 
@@ -68,7 +70,7 @@ class Embeding_features():
             acc_lens[i] = pre_lens
 
         sent_index = bs(acc_lens, mention_offset) #to Find out the charoffset in which sentence
-        print(sent_index)
+        #print(sent_index)
         mention_sent = list(doc.sents)[sent_index]
 
         first_word, last_word = mention_sent[0], mention_sent[-1]
@@ -86,7 +88,7 @@ class Embeding_features():
 
     def n_preceding_words(self, n, tokens, offset):
 
-        start = offset-n-1
+        start = offset-n
         start = max(0, start)
         end = offset
 
@@ -104,7 +106,7 @@ class Distance_features():
 
     def __init__(self):
 
-        self.nlp = spacy.load('en_core_web_sm')
+        self.nlp = spacy.load('en_core_web_lg')
         self.buckets = [1, 2, 3, 4, 5, 8, 16, 32, 64]
         self.pos_buckets = [0, 1, 2, 3, 4, 5, 8, 16, 32]
 
@@ -118,8 +120,6 @@ class Distance_features():
 
         dist = mention_offsetA - mention_offsetB
         dist_oh = self.one_hot(self.buckets, dist)
-        print(dist)
-        print(dist_oh)
 
         sent_lens = [len(sent) for sent in doc.sents] #the sentence length
         acc_lens = sent_lens
@@ -133,7 +133,7 @@ class Distance_features():
 
         sentA = list(doc.sents)[sentA_index]
         sentB = list(doc.sents)[sentB_index]
-        print(doc.sents)
+        #print(doc.sents)
 
         posA = mention_offsetA + 1
         if sentA_index > 0:
@@ -143,7 +143,7 @@ class Distance_features():
 
         posA_end_oh = self.one_hot(self.pos_buckets, posA_end)
 
-        pos2 = mention_offsetB + 1
+        posB = mention_offsetB + 1
         if sentB_index > 0:
             posB = mention_offsetB - acc_lens[sentB_index-1]
         posB_oh = self.one_hot(self.pos_buckets, posB)
@@ -178,10 +178,89 @@ class Distance_features():
         return one_hot
 
 
-Embeding_features().create(table['Pronoun-offset'][4], table['Text'][4])
+def extract_embed_features(df, text_column, offset_column, num_embed_features = 11, embed_dim = 300):
+    text_offset_list = df[[text_column, offset_column]].values.tolist()
+    num_features     = num_embed_features
+    extractor        = Embeding_features()
 
+    embed_feature_matrix = np.zeros(shape=(len(text_offset_list), num_features, embed_dim))
+    for text_offset_index in range(len(text_offset_list)):
+        text_offset = text_offset_list[text_offset_index]
+        mention, parent, first_word, last_word, precedings2, followings2, precedings5, followings5, sent_tokens = extractor.create(text_offset[1], text_offset[0])
 
+        feature_index = 0
+        embed_feature_matrix[text_offset_index, feature_index, :] = mention.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = parent.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = first_word.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = last_word.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index:feature_index+2, :] = np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in precedings2])
+        feature_index += len(precedings2)
+        embed_feature_matrix[text_offset_index, feature_index:feature_index+2, :] = np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in followings2])
+        feature_index += len(followings2)
+        embed_feature_matrix[text_offset_index, feature_index, :] = np.mean(np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in precedings5]), axis=0)
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = np.mean(np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in followings5]), axis=0)
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = np.mean(np.asarray([token.vector for token in sent_tokens]), axis=0) if len(sent_tokens) > 0 else np.zeros(embed_dim)
+        feature_index += 1
 
+    return embed_feature_matrix
 
+def extract_embed_features(df, text_column, offset_column, num_embed_features = 11, embed_dim = 300):
+    text_offset_list = df[[text_column, offset_column]].values.tolist()
+    num_features     = num_embed_features
+    extractor        = Embeding_features()
 
-#
+    embed_feature_matrix = np.zeros(shape=(len(text_offset_list), num_features, embed_dim))
+    for text_offset_index in range(len(text_offset_list)):
+        text_offset = text_offset_list[text_offset_index]
+        mention, parent, first_word, last_word, precedings2, followings2, precedings5, followings5, sent_tokens = extractor.create(text_offset[1], text_offset[0])
+
+        feature_index = 0
+        embed_feature_matrix[text_offset_index, feature_index, :] = mention.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = parent.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = first_word.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = last_word.vector
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index:feature_index+2, :] = np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in precedings2])
+        feature_index += len(precedings2)
+        embed_feature_matrix[text_offset_index, feature_index:feature_index+2, :] = np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in followings2])
+        feature_index += len(followings2)
+        embed_feature_matrix[text_offset_index, feature_index, :] = np.mean(np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in precedings5]), axis=0)
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = np.mean(np.asarray([token.vector if token is not None else np.zeros((embed_dim,)) for token in followings5]), axis=0)
+        feature_index += 1
+        embed_feature_matrix[text_offset_index, feature_index, :] = np.mean(np.asarray([token.vector for token in sent_tokens]), axis=0) if len(sent_tokens) > 0 else np.zeros(embed_dim)
+        feature_index += 1
+
+    return embed_feature_matrix
+
+def extract_dist_features(df, text_column, pronoun_offset_column, name_offset_column, num_features=45):
+    text_offset_list = df[[text_column, pronoun_offset_column, name_offset_column]].values.tolist()
+    extractor = Distance_features()
+
+    pos_feature_matrix = np.zeros(shape=(len(text_offset_list), num_features))
+    for text_offset_index in range(len(text_offset_list)):
+        text_offset = text_offset_list[text_offset_index]
+        dist_oh, sent_pos_oh1, sent_pos_oh2, sent_pos_inv_oh1, sent_pos_inv_oh2 = extractor.create(text_offset[1], text_offset[2], text_offset[0])
+
+        feature_index = 0
+        pos_feature_matrix[text_offset_index, feature_index:feature_index+len(dist_oh)] = np.asarray(dist_oh)
+        feature_index += len(dist_oh)
+        pos_feature_matrix[text_offset_index, feature_index:feature_index+len(sent_pos_oh1)] = np.asarray(sent_pos_oh1)
+        feature_index += len(sent_pos_oh1)
+        pos_feature_matrix[text_offset_index, feature_index:feature_index+len(sent_pos_oh2)] = np.asarray(sent_pos_oh2)
+        feature_index += len(sent_pos_oh2)
+        pos_feature_matrix[text_offset_index, feature_index:feature_index+len(sent_pos_inv_oh1)] = np.asarray(sent_pos_inv_oh1)
+        feature_index += len(sent_pos_inv_oh1)
+        pos_feature_matrix[text_offset_index, feature_index:feature_index+len(sent_pos_inv_oh2)] = np.asarray(sent_pos_inv_oh2)
+        feature_index += len(sent_pos_inv_oh2)
+
+    return pos_feature_matrix
