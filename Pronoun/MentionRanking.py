@@ -4,8 +4,8 @@ import keras.backend as K
 
 class MentionRanking(object):
 
-    def __init__(self, input_shape1, input_shape2, hidden_dim1=100,
-                 hidden_dim2=10, drop_rate=0.2):
+    def __init__(self, input_shape1, input_shape2, hidden_dim1=1000,
+                 hidden_dim2=500, drop_rate=0.5):
 
         self.num_feas1, self.feas1_dims = input_shape1[1], input_shape1[2]
         self.num_feas2 = input_shape2[1]
@@ -32,6 +32,9 @@ class MentionRanking(object):
 
         pair1 = Concatenate(axis=1)([input1[0], input1[1], x2[0]]) # all of those featues are concatenated to produce an I-dimention vector h0
         pair2 = Concatenate(axis=1)([input1[0], input1[2], x2[1]])
+        pair1 = Flatten()(pair1)
+        pair2 = Flatten()(pair2)
+        inpM = Flatten()(inpM)
 
         pair1_score  = self.pair_layers(pair1) #(mention, AntecedentA)
         pair2_score  = self.pair_layers(pair2) #(mention, AntecedentB)
@@ -57,8 +60,6 @@ class MentionRanking(object):
         x = Dense(self.hidden_dim2, activation='relu', use_bias=True)(x)
         x = Dropout(rate=self.drop_rate)(x)
         x = Dense(1, activation='linear', use_bias=True)(x)
-        x = Flatten()(x)
-        x = Dense(1, activation='linear')(x)
 
         return x
 
@@ -71,8 +72,6 @@ class MentionRanking(object):
         x = Dense(self.hidden_dim2, activation='relu', use_bias=True)(x)
         x = Dropout(rate=self.drop_rate)(x)
         x = Dense(1, activation='linear', use_bias=True)(x)
-        x = Flatten()(x)
-        x = Dense(1, activation='linear')(x)
 
         return x
 
