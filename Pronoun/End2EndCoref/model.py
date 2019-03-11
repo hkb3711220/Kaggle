@@ -1,19 +1,21 @@
+
 import torch
 from utils import *
 from torch import nn
 
+
 class model(nn.Module):
 
-    def __init__(self, max_len=50, max_features=80000, embed_size=300, hidden=200):
+    def __init__(self, max_len=50, max_features=80000, embed_size=300, hidden=200, dim=150):
 
         super(model, self).__init__()
         self.embed1 = nn.Embedding(max_features, embed_size)
         self.dist_embed = DistanceEmbed()
         self.lstm  = nn.LSTM(embed_size, hidden, bidirectional=True, batch_first=True)
-        self.FFNN1  = FFNN(hidden*2, 150)
-        self.Attention = Attention(150, max_len)
-        self.score1 = nn.Sequential(FFNN(970, 150), nn.Linear(150, 1))
-        self.score2 = nn.Sequential(FFNN(970*2+1+20, 150), nn.Linear(150, 1))
+        self.FFNN1  = FFNN(hidden*2, dim)
+        self.Attention = Attention(dim, max_len)
+        self.score1 = nn.Sequential(FFNN(970, dim), nn.Linear(dim, 1))
+        self.score2 = nn.Sequential(FFNN(970*2+1+20, dim), nn.Linear(dim, 1))
         self.pairwise = nn.PairwiseDistance(keepdim=True)
         self.soft_max = nn.Softmax(1)
 
@@ -41,6 +43,7 @@ class model(nn.Module):
         Core_scoreB = M_score + B_score + Sb
 
         output = self.soft_max(torch.cat((Core_scoreA, Core_scoreB, M_score), 1))
+        print(output.size())
 
         return output
 
@@ -62,5 +65,4 @@ x2 = torch.ones([300], dtype=torch.int64)
 x3 = x2
 x4 = x2
 x = [x1, x1, x1, x2, x3, x4, x2, x2]
-#print(x)
 model()(x)
