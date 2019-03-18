@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78884db4-2b1b-44c9-aed9-6b6115fbfd60" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/BERT_Finetune.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/End2EndCoref/loader.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/End2EndCoref/model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/End2EndCoref/utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RobustedCoref/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/RobustedCoref/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loader.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bert_embed_end2end/bert-embedding-e2e-model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Bert_embed_end2end/bert-embedding-e2e-model.ipynb" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,22 +14,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/RobustedCoref/model.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/BERT_Finetune.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
+            <state relative-caret-position="417">
+              <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/model.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pytorch_pretrained_bert/modeling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-181">
+            <state relative-caret-position="382">
+              <caret line="258" column="60" selection-start-line="258" selection-start-column="60" selection-end-line="258" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MentionRankingModel/loader.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="624">
+              <caret line="51" column="46" lean-forward="true" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="46" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_stage_1.tsv">
+          <provider editor-type-id="csv-table-editor">
+            <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+          </provider>
+          <provider selected="true" editor-type-id="csv-text-editor">
+            <state>
+              <caret column="31" selection-start-column="16" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -62,13 +84,15 @@
         <option value="$PROJECT_DIR$/gender_inf.py" />
         <option value="$PROJECT_DIR$/loader.py" />
         <option value="$PROJECT_DIR$/RobustedCoref/model.py" />
+        <option value="$PROJECT_DIR$/RobustedCoref/BERT_Finetune.py" />
+        <option value="$PROJECT_DIR$/BERT_Finetune.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-6" />
-    <option name="width" value="972" />
-    <option name="height" value="526" />
+    <option name="x" value="1590" />
+    <option name="width" value="1622" />
+    <option name="height" value="1732" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -119,6 +143,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\h3711\OneDrive\Desktop\Kaggle\Pronoun" />
       <recent name="C:\Users\h3711\OneDrive\Desktop\Kaggle\Kaggle\Pronoun\End2EndCoref" />
     </key>
   </component>
@@ -134,7 +159,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.model (1)">
+  <component name="RunManager" selected="Python.BERT_Finetune">
+    <configuration name="BERT_Finetune" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Pronoun" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BERT_Finetune.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="gender_inf" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Pronoun" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -224,9 +270,11 @@
       <item itemvalue="Python.loader" />
       <item itemvalue="Python.model" />
       <item itemvalue="Python.model (1)" />
+      <item itemvalue="Python.BERT_Finetune" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.BERT_Finetune" />
         <item itemvalue="Python.model (1)" />
         <item itemvalue="Python.loader" />
         <item itemvalue="Python.gender_inf" />
@@ -250,12 +298,12 @@
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1613" height="873" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13375796" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.08025478" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" x="0" y="23" width="1920" height="1017" id="Run" order="2" sideWeight="0.49936306" type="WINDOWED" weight="0.32913166" />
+      <window_info anchor="bottom" x="0" y="195" width="1601" height="470" id="Run" maximized="true" order="2" sideWeight="0.49936306" type="WINDOWED" weight="0.32913166" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -303,24 +351,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MentionRankingModel/loader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="12" selection-end-line="235" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_stage_1.tsv">
-      <provider selected="true" editor-type-id="text-editor" />
-      <provider editor-type-id="csv-text-editor">
-        <state>
-          <caret column="16" lean-forward="true" selection-start-column="16" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/End2EndCoref/utils.py" />
     <entry file="file://$PROJECT_DIR$/gender_inf.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -332,13 +362,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/loader.py">
+    <entry file="file://$PROJECT_DIR$/loader.py" />
+    <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4056">
-          <caret line="161" selection-start-line="161" selection-end-line="161" />
+        <state>
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Bert_embed_end2end/bert-embedding-e2e-model.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
         </state>
       </provider>
     </entry>
@@ -349,11 +386,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model.py">
+    <entry file="file://$PROJECT_DIR$/../../bert/tokenization.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MentionRankingModel/loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-181">
+        <state relative-caret-position="624">
+          <caret line="51" column="46" lean-forward="true" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="46" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_stage_1.tsv">
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider selected="true" editor-type-id="csv-text-editor">
+        <state>
+          <caret column="31" selection-start-column="16" selection-end-column="31" />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://C:/ProgramData/Anaconda3/Lib/site-packages/pytorch_pretrained_bert/modeling.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="258" column="60" selection-start-line="258" selection-start-column="60" selection-end-line="258" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BERT_Finetune.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="75" column="17" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
