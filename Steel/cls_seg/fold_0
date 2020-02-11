@@ -1,0 +1,128 @@
+home/chanhu/anaconda3/bin/python /home/chanhu/桌面/Kaggle/Steel/cls_seg/train_model2.py
+40212 10060
+iter: 3000 |Train Loss: 0.5510 | Val Loss: 0.7992 | | IoU: 0.0028 | dice: 0.2282 | dice_neg: 0.3398 | dice_pos: 0.0040
+iter: 6000 |Train Loss: 0.0102 | Val Loss: 0.6124 | | IoU: 0.0202 | dice: 0.3272 | dice_neg: 0.4670 | dice_pos: 0.0255
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 9000 |Train Loss: 0.2952 | Val Loss: 0.5374 | | IoU: 0.0303 | dice: 0.3701 | dice_neg: 0.5171 | dice_pos: 0.0385
+iter: 12000 |Train Loss: 0.0157 | Val Loss: 0.4863 | | IoU: 0.0803 | dice: 0.4458 | dice_neg: 0.5775 | dice_pos: 0.0963
+iter: 15000 |Train Loss: 0.2407 | Val Loss: 0.4280 | | IoU: 0.1403 | dice: 0.4832 | dice_neg: 0.5632 | dice_pos: 0.1589
+iter: 18000 |Train Loss: 0.0200 | Val Loss: 0.4020 | | IoU: 0.1312 | dice: 0.4939 | dice_neg: 0.5914 | dice_pos: 0.1501
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 21000 |Train Loss: 0.2073 | Val Loss: 0.4119 | | IoU: 0.1689 | dice: 0.4925 | dice_neg: 0.5489 | dice_pos: 0.1857
+iter: 24000 |Train Loss: 0.0265 | Val Loss: 0.3804 | | IoU: 0.1646 | dice: 0.5418 | dice_neg: 0.6276 | dice_pos: 0.1833
+iter: 27000 |Train Loss: 0.1731 | Val Loss: 0.3935 | | IoU: 0.2026 | dice: 0.5189 | dice_neg: 0.5465 | dice_pos: 0.2235
+iter: 30000 |Train Loss: 0.0266 | Val Loss: 0.2903 | | IoU: 0.2417 | dice: 0.5702 | dice_neg: 0.5930 | dice_pos: 0.2579
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 33000 |Train Loss: 0.1678 | Val Loss: 0.3422 | | IoU: 0.2723 | dice: 0.6190 | dice_neg: 0.6308 | dice_pos: 0.2870
+iter: 36000 |Train Loss: 0.0330 | Val Loss: 0.4264 | | IoU: 0.2626 | dice: 0.6073 | dice_neg: 0.6276 | dice_pos: 0.2783
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 39000 |Train Loss: 0.1486 | Val Loss: 0.3520 | | IoU: 0.3031 | dice: 0.6243 | dice_neg: 0.6184 | dice_pos: 0.3150
+iter: 42000 |Train Loss: 0.0308 | Val Loss: 0.4322 | | IoU: 0.3246 | dice: 0.6203 | dice_neg: 0.5862 | dice_pos: 0.3374
+iter: 45000 |Train Loss: 0.1445 | Val Loss: 0.3398 | | IoU: 0.3512 | dice: 0.6382 | dice_neg: 0.5874 | dice_pos: 0.3611
+iter: 48000 |Train Loss: 0.0361 | Val Loss: 0.3406 | | IoU: 0.3528 | dice: 0.6277 | dice_neg: 0.5684 | dice_pos: 0.3643
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 51000 |Train Loss: 0.1283 | Val Loss: 0.4023 | | IoU: 0.3445 | dice: 0.6311 | dice_neg: 0.5866 | dice_pos: 0.3527
+iter: 54000 |Train Loss: 0.0392 | Val Loss: 0.2853 | | IoU: 0.2823 | dice: 0.5944 | dice_neg: 0.5906 | dice_pos: 0.2950
+iter: 57000 |Train Loss: 0.1234 | Val Loss: 0.2690 | | IoU: 0.3602 | dice: 0.6472 | dice_neg: 0.5966 | dice_pos: 0.3686
+iter: 60000 |Train Loss: 0.0444 | Val Loss: 0.2680 | | IoU: 0.3537 | dice: 0.6575 | dice_neg: 0.6180 | dice_pos: 0.3609
+iter: 63000 |Train Loss: 0.1189 | Val Loss: 0.3318 | | IoU: 0.3366 | dice: 0.6388 | dice_neg: 0.6041 | dice_pos: 0.3463
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 66000 |Train Loss: 0.0426 | Val Loss: 0.3588 | | IoU: 0.2957 | dice: 0.5593 | dice_neg: 0.5231 | dice_pos: 0.3086
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 69000 |Train Loss: 0.1232 | Val Loss: 0.4379 | | IoU: 0.3995 | dice: 0.6542 | dice_neg: 0.5727 | dice_pos: 0.4018
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 72000 |Train Loss: 0.0482 | Val Loss: 0.2317 | | IoU: 0.3391 | dice: 0.6704 | dice_neg: 0.6514 | dice_pos: 0.3470
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 75000 |Train Loss: 0.1147 | Val Loss: 0.2911 | | IoU: 0.3721 | dice: 0.6867 | dice_neg: 0.6387 | dice_pos: 0.3812
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 78000 |Train Loss: 0.0470 | Val Loss: 0.3499 | | IoU: 0.3228 | dice: 0.6357 | dice_neg: 0.6109 | dice_pos: 0.3351
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 81000 |Train Loss: 0.1114 | Val Loss: 0.4272 | | IoU: 0.3881 | dice: 0.6758 | dice_neg: 0.6105 | dice_pos: 0.3925
+iter: 84000 |Train Loss: 0.0505 | Val Loss: 0.3039 | | IoU: 0.3997 | dice: 0.6826 | dice_neg: 0.6097 | dice_pos: 0.4019
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 87000 |Train Loss: 0.1026 | Val Loss: 0.3624 | | IoU: 0.3938 | dice: 0.6810 | dice_neg: 0.6105 | dice_pos: 0.4016
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 90000 |Train Loss: 0.0478 | Val Loss: 0.3556 | | IoU: 0.3987 | dice: 0.7082 | dice_neg: 0.6475 | dice_pos: 0.4021
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 93000 |Train Loss: 0.1025 | Val Loss: 0.3536 | | IoU: 0.4079 | dice: 0.6969 | dice_neg: 0.6244 | dice_pos: 0.4107
+iter: 96000 |Train Loss: 0.0473 | Val Loss: 0.3460 | | IoU: 0.3802 | dice: 0.6810 | dice_neg: 0.6248 | dice_pos: 0.3872
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 99000 |Train Loss: 0.0949 | Val Loss: 0.2991 | | IoU: 0.3550 | dice: 0.6587 | dice_neg: 0.6184 | dice_pos: 0.3627
+iter: 102000 |Train Loss: 0.0581 | Val Loss: 0.5058 | | IoU: 0.4064 | dice: 0.6777 | dice_neg: 0.6006 | dice_pos: 0.4098
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 105000 |Train Loss: 0.0948 | Val Loss: 0.4645 | | IoU: 0.3741 | dice: 0.6642 | dice_neg: 0.6097 | dice_pos: 0.3765
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 108000 |Train Loss: 0.0556 | Val Loss: 0.2906 | | IoU: 0.3892 | dice: 0.6918 | dice_neg: 0.6387 | dice_pos: 0.3892
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 111000 |Train Loss: 0.0895 | Val Loss: 0.2911 | | IoU: 0.3845 | dice: 0.6864 | dice_neg: 0.6308 | dice_pos: 0.3905
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 114000 |Train Loss: 0.0554 | Val Loss: 0.3050 | | IoU: 0.4372 | dice: 0.7094 | dice_neg: 0.6145 | dice_pos: 0.4369
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 117000 |Train Loss: 0.0957 | Val Loss: 0.2599 | | IoU: 0.4138 | dice: 0.7063 | dice_neg: 0.6371 | dice_pos: 0.4123
+iter: 120000 |Train Loss: 0.0600 | Val Loss: 0.3022 | | IoU: 0.3807 | dice: 0.6971 | dice_neg: 0.6542 | dice_pos: 0.3827
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 123000 |Train Loss: 0.0873 | Val Loss: 0.2796 | | IoU: 0.4319 | dice: 0.7105 | dice_neg: 0.6248 | dice_pos: 0.4318
+iter: 126000 |Train Loss: 0.0559 | Val Loss: 0.4264 | | IoU: 0.4329 | dice: 0.6965 | dice_neg: 0.6017 | dice_pos: 0.4325
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 129000 |Train Loss: 0.0837 | Val Loss: 0.3438 | | IoU: 0.3926 | dice: 0.6881 | dice_neg: 0.6216 | dice_pos: 0.3998
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 132000 |Train Loss: 0.0554 | Val Loss: 0.2551 | | IoU: 0.3961 | dice: 0.6931 | dice_neg: 0.6300 | dice_pos: 0.3981
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 135000 |Train Loss: 0.0870 | Val Loss: 0.2752 | | IoU: 0.3931 | dice: 0.6921 | dice_neg: 0.6320 | dice_pos: 0.3954
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 138000 |Train Loss: 0.0646 | Val Loss: 0.4013 | | IoU: 0.4503 | dice: 0.6957 | dice_neg: 0.5870 | dice_pos: 0.4467
+iter: 141000 |Train Loss: 0.0859 | Val Loss: 0.2671 | | IoU: 0.4435 | dice: 0.6471 | dice_neg: 0.5183 | dice_pos: 0.4402
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 144000 |Train Loss: 0.0626 | Val Loss: 0.2738 | | IoU: 0.4056 | dice: 0.6685 | dice_neg: 0.5843 | dice_pos: 0.4043
+iter: 147000 |Train Loss: 0.0817 | Val Loss: 0.4372 | | IoU: 0.3556 | dice: 0.6598 | dice_neg: 0.6093 | dice_pos: 0.3693
+iter: 150000 |Train Loss: 0.0656 | Val Loss: 0.2675 | | IoU: 0.4229 | dice: 0.6677 | dice_neg: 0.5664 | dice_pos: 0.4231
+iter: 153000 |Train Loss: 0.0835 | Val Loss: 0.2416 | | IoU: 0.3910 | dice: 0.6157 | dice_neg: 0.5135 | dice_pos: 0.3967
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 156000 |Train Loss: 0.0704 | Val Loss: 0.2809 | | IoU: 0.4346 | dice: 0.6949 | dice_neg: 0.5986 | dice_pos: 0.4343
+iter: 159000 |Train Loss: 0.0792 | Val Loss: 0.2948 | | IoU: 0.4394 | dice: 0.7086 | dice_neg: 0.6117 | dice_pos: 0.4384
+iter: 162000 |Train Loss: 0.0713 | Val Loss: 0.2997 | | IoU: 0.4057 | dice: 0.7050 | dice_neg: 0.6375 | dice_pos: 0.4058
+iter: 165000 |Train Loss: 0.0797 | Val Loss: 0.2765 | | IoU: 0.3804 | dice: 0.6882 | dice_neg: 0.6335 | dice_pos: 0.3894
+iter: 168000 |Train Loss: 0.0701 | Val Loss: 0.3993 | | IoU: 0.4510 | dice: 0.7191 | dice_neg: 0.6204 | dice_pos: 0.4477
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 171000 |Train Loss: 0.0726 | Val Loss: 0.4314 | | IoU: 0.4409 | dice: 0.7101 | dice_neg: 0.6169 | dice_pos: 0.4378
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 174000 |Train Loss: 0.0790 | Val Loss: 0.3469 | | IoU: 0.4059 | dice: 0.6880 | dice_neg: 0.6141 | dice_pos: 0.4081
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 177000 |Train Loss: 0.0844 | Val Loss: 0.2639 | | IoU: 0.4588 | dice: 0.7236 | dice_neg: 0.6157 | dice_pos: 0.4538
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 180000 |Train Loss: 0.0725 | Val Loss: 0.3453 | | IoU: 0.4475 | dice: 0.7160 | dice_neg: 0.6165 | dice_pos: 0.4451
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 183000 |Train Loss: 0.0006 | Val Loss: 0.3017 | | IoU: 0.4233 | dice: 0.6793 | dice_neg: 0.5851 | dice_pos: 0.4228
+iter: 186000 |Train Loss: 0.0783 | Val Loss: 0.2825 | | IoU: 0.4529 | dice: 0.6710 | dice_neg: 0.5489 | dice_pos: 0.4497
+iter: 189000 |Train Loss: 0.0031 | Val Loss: 2.9954 | | IoU: 0.3961 | dice: 0.5695 | dice_neg: 0.4376 | dice_pos: 0.4015
+iter: 192000 |Train Loss: 0.0738 | Val Loss: 0.3228 | | IoU: 0.3921 | dice: 0.6694 | dice_neg: 0.6006 | dice_pos: 0.3924
+iter: 195000 |Train Loss: 0.0053 | Val Loss: 0.2856 | | IoU: 0.4299 | dice: 0.6644 | dice_neg: 0.5588 | dice_pos: 0.4262
+iter: 198000 |Train Loss: 0.0692 | Val Loss: 0.3089 | | IoU: 0.4574 | dice: 0.7370 | dice_neg: 0.6439 | dice_pos: 0.4489
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 201000 |Train Loss: 0.0070 | Val Loss: 0.2541 | | IoU: 0.4616 | dice: 0.6677 | dice_neg: 0.5362 | dice_pos: 0.4541
+iter: 204000 |Train Loss: 0.0642 | Val Loss: 1.9720 | | IoU: 0.4312 | dice: 0.6075 | dice_neg: 0.4662 | dice_pos: 0.4293
+iter: 207000 |Train Loss: 0.0128 | Val Loss: 0.2249 | | IoU: 0.3333 | dice: 0.6710 | dice_neg: 0.6486 | dice_pos: 0.3465
+iter: 210000 |Train Loss: 0.0745 | Val Loss: 0.2548 | | IoU: 0.4715 | dice: 0.7566 | dice_neg: 0.6522 | dice_pos: 0.4643
+iter: 213000 |Train Loss: 0.0110 | Val Loss: 0.2434 | | IoU: 0.4473 | dice: 0.7418 | dice_neg: 0.6610 | dice_pos: 0.4406
+iter: 216000 |Train Loss: 0.0702 | Val Loss: 0.4280 | | IoU: 0.4228 | dice: 0.7002 | dice_neg: 0.6180 | dice_pos: 0.4221
+iter: 219000 |Train Loss: 0.0119 | Val Loss: 0.3364 | | IoU: 0.4667 | dice: 0.7379 | dice_neg: 0.6324 | dice_pos: 0.4596
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 222000 |Train Loss: 0.0757 | Val Loss: 0.2551 | | IoU: 0.4293 | dice: 0.7214 | dice_neg: 0.6403 | dice_pos: 0.4270
+iter: 225000 |Train Loss: 0.0151 | Val Loss: 0.2381 | | IoU: 0.4493 | dice: 0.7381 | dice_neg: 0.6486 | dice_pos: 0.4449
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 228000 |Train Loss: 0.0695 | Val Loss: 0.3247 | | IoU: 0.4106 | dice: 0.6998 | dice_neg: 0.6212 | dice_pos: 0.4148
+OMP: Warning #190: Forking a process while a parallel region is active is potentially unsafe.
+iter: 231000 |Train Loss: 0.0186 | Val Loss: 0.6785 | | IoU: 0.4377 | dice: 0.6753 | dice_neg: 0.5684 | dice_pos: 0.4316
+iter: 234000 |Train Loss: 0.0754 | Val Loss: 0.2923 | | IoU: 0.4295 | dice: 0.7043 | dice_neg: 0.6137 | dice_pos: 0.4294
+iter: 237000 |Train Loss: 0.0215 | Val Loss: 0.6904 | | IoU: 0.4135 | dice: 0.6581 | dice_neg: 0.5556 | dice_pos: 0.4164
+iter: 240000 |Train Loss: 0.0708 | Val Loss: 0.3255 | | IoU: 0.4344 | dice: 0.7289 | dice_neg: 0.6506 | dice_pos: 0.4318
+iter: 243000 |Train Loss: 0.0240 | Val Loss: 0.2793 | | IoU: 0.4655 | dice: 0.7439 | dice_neg: 0.6447 | dice_pos: 0.4584
+iter: 246000 |Train Loss: 0.0704 | Val Loss: 0.3487 | | IoU: 0.3655 | dice: 0.6962 | dice_neg: 0.6526 | dice_pos: 0.3787
